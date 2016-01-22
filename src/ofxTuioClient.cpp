@@ -77,14 +77,14 @@ void ofxTuioClient::drawObjects(){
 	client->lockObjectList();
 	for (tobj=objectList.begin(); tobj != objectList.end(); tobj++) {
 		TuioObject *obj = (*tobj);
-		glColor3f(1.0,0.0,0.0);
-		glPushMatrix();
-		glTranslatef(obj->getX()*ofGetWidth(), obj->getY()*ofGetHeight(), 0.0);
-		glRotatef(obj->getAngleDegrees(), 0.0, 0.0, 1.0);
-		ofRect(-10.0, -10.0, 20.0, 20.0);
-		glColor3f(1.0,1.0,1.0);
-		ofLine(0, 0, 0, -10);
-		glPopMatrix();
+		ofSetColor( ofColor::red );
+		ofPushMatrix();
+			ofTranslate(obj->getX()*ofGetWidth(), obj->getY()*ofGetHeight(), 0.0);
+			ofRotate(obj->getAngleDegrees(), 0.0, 0.0, 1.0);
+			ofRect(-10.0, -10.0, 20.0, 20.0);
+			ofSetColor( ofColor::white );
+			ofLine(0, 0, 0, -10);
+		ofPopMatrix();
 		string str = "SymbolId: "+ofToString((int)(obj->getSymbolID()));
 		ofDrawBitmapString(str, obj->getX()*ofGetWidth()-10.0, obj->getY()*ofGetHeight()+25.0);
 		str = "SessionId: "+ofToString((int)(obj->getSessionID()));
@@ -94,7 +94,8 @@ void ofxTuioClient::drawObjects(){
 	ofPopStyle();
 }
 
-void ofxTuioClient::update(){
+void ofxTuioClient::update() {
+	
 	TuioObject tobj;
 	while(objectAddedQueue.tryReceive(tobj)){
 		ofNotifyEvent(objectAdded, tobj, this);
