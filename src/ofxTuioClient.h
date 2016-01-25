@@ -42,7 +42,6 @@ public:
 	~ofxTuioClient() {
 		disconnect();
 	}
-	void update();
 	void connect(int _port);
 	void disconnect();
 	
@@ -65,6 +64,8 @@ public:
 	void refresh(TuioTime frameTime);
 	void drawCursors();
 	void drawObjects();
+
+	void _update( ofEventArgs & args );
 	
 	void setVerbose(bool b);
 	
@@ -77,6 +78,9 @@ public:
 	TuioClient * client;
 	
 protected:
+	
+	
+	
 	bool bVerbose, bIsConnected, bFlip;
 	ofThreadChannel<TuioObject> objectAddedQueue, objectRemovedQueue, objectUpdatedQueue;
 	ofThreadChannel<ofTouchEventArgs> touchAddedQueue, touchRemovedQueue, touchUpdatedQueue;

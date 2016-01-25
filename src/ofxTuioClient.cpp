@@ -35,6 +35,7 @@ void ofxTuioClient::connect(int port){
 	if (!client->isConnected()) {
 		ofLogError("Could not connect TUIO Client");
 	} else {
+		ofAddListener(ofEvents().update,this,&ofxTuioClient::_update);
 	    bIsConnected = true;	
 	}
 	
@@ -58,7 +59,7 @@ void ofxTuioClient::drawCursors(){
 		TuioCursor * cur = (*tit);
 		//if(tcur!=0){
 			//TuioCursor cur = *tcur;
-			ofSetColor(0.0,0.0,0.0);
+			ofSetColor( ofColor::black );
 			ofDrawEllipse(cur->getX()*ofGetWidth(), cur->getY()*ofGetHeight(), 10.0, 10.0);
 			string str = "SessionId: "+ofToString((int)(cur->getSessionID()));
 			ofDrawBitmapString(str, cur->getX()*ofGetWidth()-10.0, cur->getY()*ofGetHeight()+25.0);
@@ -94,7 +95,7 @@ void ofxTuioClient::drawObjects(){
 	ofPopStyle();
 }
 
-void ofxTuioClient::update() {
+void ofxTuioClient::_update( ofEventArgs & args ) {
 	
 	TuioObject tobj;
 	while(objectAddedQueue.tryReceive(tobj)){
@@ -170,7 +171,8 @@ void ofxTuioClient::addTuioCursor(TuioCursor *tcur) {
 		touch.y = 1.f - touch.y;
 	}
 
-	touchAddedQueue.send(touch);
+	bool wasSent = touchAddedQueue.send(touch);
+	//cout << "addTuioCursor wasSent: " << wasSent << endl;
 	
 	if (bVerbose) 
 		std::cout << "add cur " << tcur->getCursorID() << " (" <<  tcur->getSessionID() << ") " << tcur->getX() << " " << tcur->getY() << std::endl;
@@ -188,7 +190,9 @@ void ofxTuioClient::updateTuioCursor(TuioCursor *tcur) {
 		touch.x = 1.f - touch.x;
 		touch.y = 1.f - touch.y;
 	}
-	touchUpdatedQueue.send(touch);
+	
+	bool wasSent = touchUpdatedQueue.send(touch);
+	//cout << "updateTuioCursor wasSent: " << wasSent << endl;
 	
 	if (bVerbose) 	
 		std::cout << "set cur " << tcur->getCursorID() << " (" <<  tcur->getSessionID() << ") " << tcur->getX() << " " << tcur->getY() 
@@ -206,7 +210,9 @@ void ofxTuioClient::removeTuioCursor(TuioCursor *tcur) {
 		touch.x = 1.f - touch.x;
 		touch.y = 1.f - touch.y;
 	}
-	touchRemovedQueue.send(touch);
+	
+	bool wasSent = touchRemovedQueue.send(touch);
+	//cout << "removeTuioCursor wasSent: " << wasSent << endl;
 	
 	if (bVerbose)
 		std::cout << "del cur " << tcur->getCursorID() << " (" <<  tcur->getSessionID() << ")" << std::endl;
