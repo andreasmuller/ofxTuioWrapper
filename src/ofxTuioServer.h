@@ -24,8 +24,8 @@
 #define _TUIO_SERVER
 
 #include "ofMain.h"
-#include "TuioServer.h"
-#include "TuioCursor.h"
+#include "TUIO/TuioServer.h"
+#include "TUIO/TuioCursor.h"
 
 #include <list>
 #include <math.h>

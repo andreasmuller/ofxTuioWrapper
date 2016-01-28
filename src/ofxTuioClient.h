@@ -24,11 +24,11 @@
 #define _TUIO_CLIENT
 
 #include "ofMain.h"
-#include "TuioListener.h"
-#include "TuioClient.h"
-#include "TuioObject.h"
-#include "TuioCursor.h"
-#include "TuioPoint.h"
+#include "TUIO/TuioListener.h"
+#include "TUIO/TuioClient.h"
+#include "TUIO/TuioObject.h"
+#include "TUIO/TuioCursor.h"
+#include "TUIO/TuioPoint.h"
 
 #include <list>
 #include <math.h>
